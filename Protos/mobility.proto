@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService1";
+
+package Mobility;
+
+service Mobility {
+    rpc AuthenticateUser (AuthRequest) returns (AuthResponse);
+    rpc GetServiceInfo (ServiceRequest) returns (ServiceResponse);
+    rpc AllocateTask (TaskRequest) returns (TaskResponse);
+    rpc CompleteTask (TaskRequest) returns (TaskResponse);
+    rpc SubscribeNotifications (SubscriptionRequest) returns (SubscriptionResponse);
+    rpc UnsubscribeNotifications (SubscriptionRequest) returns (UnsubscriptionResponse);
+    rpc CreateTask (TaskRequest) returns (TaskResponse);
+    rpc RemoveTask (TaskRequest) returns (TaskResponse);
+    rpc AssociateService (AssociationRequest) returns (AssociationResponse);
+    rpc DisassociateService (DisassociationRequest) returns (DisassociationResponse);
+    rpc ManageInfo (ManageInfoRequest) returns (ManageInfoResponse);
+}
+
+message AuthRequest {
+    string id = 1;
+    string password = 2;
+    string userType = 3;
+}
+
+message AuthResponse {
+    bool success = 1;
+    string message = 2;
+    string serviceId = 3;
+}
+
+message ServiceRequest {
+    string serviceId = 1;
+}
+
+message ServiceResponse {
+    string serviceId = 1;
+    string serviceName = 2;
+    repeated TaskInfo tasks = 3;
+}
+
+message TaskRequest {
+    string clientId = 1;
+    string taskId = 2;
+    string description = 3;
+    string serviceId = 4;
+}
+
+message TaskResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message TaskInfo {
+    string taskId = 1;
+    string description = 2;
+    string status = 3;
+    string clientId = 4;
+}
+
+message SubscriptionRequest {
+    string clientId = 1;
+    string serviceId = 2;
+}
+
+message SubscriptionResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message UnsubscriptionResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message AssociationRequest {
+    string id = 1;
+    string serviceId = 2;
+    string userType = 3;
+}
+
+message AssociationResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message DisassociationRequest {
+    string id = 1;
+    string userType = 2;
+}
+
+message DisassociationResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message ManageInfoRequest {
+    string action = 1;
+    string id = 2;
+    string info = 3;
+    string clientId = 4;
+}
+
+message ClientMotoInfo {
+    string clientId = 1;
+    string motoId = 2;
+    string modelo = 3;
+}
+
+message ManageInfoResponse {
+    bool success = 1;
+    string message = 2;
+    string info = 3;
+    repeated ClientMotoInfo clientMotos = 4; // Adicionado campo para lista de clientes e motos
+}
